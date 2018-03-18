@@ -1,0 +1,431 @@
+<div class="container page">
+
+  <!-- La fenetre d'ajout -->
+  <div class="modal fade" tabindex="-1" id="add" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title">{{ modalTitle }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <!-- Formulaires -->
+
+          <!-- Ajout d'une categorie -->
+          <form *ngIf="state === 'categories'" (ngSubmit)="onSubmit()" ngNativeValidate>
+            <div class="form-group row">
+              <label for="category" class="col-sm-3 col-form-label">Titre *</label>
+              <div class="col-sm-9">
+                <input [(ngModel)]="category.title" type="text" class="form-control" id="category" name="category" placeholder="Titre" required>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-10 control-label">(*) Champs Obligatoires</label>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-9">
+                <input type="submit" class="btn btn-sm btn-success" value="Ajouter">
+              </div>
+            </div>
+          </form>
+
+
+          <!-- Ajout d'un produit -->
+          <form *ngIf="state === 'products'" (ngSubmit)="onSubmit()" ngNativeValidate>
+            <div class="form-group row">
+              <label for="title" class="col-sm-3 col-form-label">Titre *</label>
+              <div class="col-sm-9">
+                <input [(ngModel)]="product.title" type="title" class="form-control" id="title" name="title" placeholder="Titre" required>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="category" class="col-sm-3 col-form-label">Catégorie *</label>
+              <div class="col-sm-9">
+                <select [(ngModel)]="product.categoryId" class="form-control" id="category" name="category" required>
+                  <option *ngFor="let category of categoryList" value="{{ category.id }}">{{ category.title }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="description" class="col-sm-3 col-form-label">Description *</label>
+              <div class="col-sm-9">
+                <textarea [(ngModel)]="product.description" type="description" class="form-control" id="description" name="description" placeholder="Description" required></textarea>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="price" class="col-sm-3 col-form-label">Prix *</label>
+              <div class="col-sm-9">
+                <input [(ngModel)]="product.price" type="text" class="form-control" id="price" name="price" placeholder="Prix" required>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="img_path" class="col-sm-3 col-form-label">Path Image *</label>
+              <div class="col-sm-9">
+                <input [(ngModel)]="product.imgPath" type="text" class="form-control" id="img_path" name="img_path" placeholder="/path/to/image" required>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-10 control-label">(*) Champs Obligatoires</label>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-9">
+                <input type="submit" class="btn btn-sm btn-success" value="Ajouter">
+              </div>
+            </div>
+          </form>
+
+
+          <!-- Ajout d'un utilisateur -->
+          <form *ngIf="state === 'users'" (ngSubmit)="onSubmit()" ngNativeValidate>
+            <div class="form-group row">
+              <label for="email" class="col-sm-3 col-form-label">Email *</label>
+              <div class="col-sm-9">
+                <input [(ngModel)]="user.email" type="email" class="form-control" id="email" name="email" placeholder="ex: email@domain.fr" required>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="password" class="col-sm-3 col-form-label">Mot de passe *</label>
+              <div class="col-sm-9">
+                <input [(ngModel)]="user.password" type="password" class="form-control" id="password" name="password" placeholder="Mot de passe" required>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="last_name" class="col-sm-3 col-form-label">Nom *</label>
+              <div class="col-sm-9">
+                <input [(ngModel)]="user.lastName" type="text" class="form-control" id="last_name" name="last_name" placeholder="Nom" required>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="first_name" class="col-sm-3 col-form-label">Prénom *</label>
+              <div class="col-sm-9">
+                <input [(ngModel)]="user.firstName" type="text" class="form-control" id="first_name" name="first_name" placeholder="Prenom" required>
+              </div>
+            </div>
+        
+            <div class="form-group row">
+              <label for="birth_date" class="col-sm-3 col-form-label">Date de naissance *</label>
+              <div class="col-sm-9">
+                <input [(ngModel)]="user.birthDate" type="text" class="form-control" id="birth_date" name="birth_date" placeholder="AAAA-MM-JJ" required>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="admin" class="col-sm-3 col-form-label">Admin *</label>
+              <div class="col-sm-9">
+                <select [(ngModel)]="user.admin" class="form-control" id="admin" name="admin" required>
+                  <option value="0">Non</option>
+                  <option value="1">Oui</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-10 control-label">(*) Champs Obligatoires</label>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-9">
+                <input type="submit" class="btn btn-sm btn-success" value="Ajouter">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-ban"></i> Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h1><strong>Penneau d'administration</strong></h1>
+
+
+  <!-- Les alerts -->
+  <div *ngIf="output && output.notice != null" class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>{{ output.notice }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div *ngIf="output && output.error != null" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>{{ output.error }}</strong>
+  </div>
+
+
+  <!-- Liens -->
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/admin']" [class.active]="state === 'purchases'" (click)="purchases()">Achats</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/admin']" [class.active]="state === 'products'" (click)="products()">Produits</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/admin']" [class.active]="state === 'categories'" (click)="categories()">Catégories</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/admin']" [class.active]="state === 'users'" (click)="users()">Utilisateurs</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/admin']" [class.active]="state === 'comments'" (click)="comments()">Commentaires</a>
+    </li>
+  </ul>
+
+
+  <!-- Tableau des achats -->
+  <div class="panel-content" *ngIf="state === 'purchases'">
+    <h2>Achats</h2>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Date</th>
+          <th scope="col">Id Utilisateur</th>
+          <th scope="col">Nom Utilisateur</th>
+          <th scope="col">Id Produit</th>
+          <th scope="col">Titre Produit</th>
+          <th scope="col">Prix Produit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let purchase of purchaseList">
+          <th scope="row">{{ purchase.id }}</th>
+          <td>{{ purchase.dateAdded }}</td>
+          <td>{{ purchase.user.id }}</td>
+          <td>{{ purchase.user.firstName }}  {{ purchase.user.lastName }}</td>
+          <td>{{ purchase.product.id }}</td>
+          <td><a [routerLink]="['/product/', purchase.product.id]">{{ purchase.product.title }}</a></td>
+          <td>{{ purchase.product.price }} €</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- Tableau des produits -->
+  <div class="panel-content" *ngIf="state === 'products'">
+    <h2>Produits</h2>
+
+    <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#add"><i class="fa fa-plus-square"></i> Ajouter</button>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Titre</th>
+          <th scope="col">Description</th>
+          <th scope="col">Prix</th>
+          <th scope="col">Date d'ajout</th>
+          <th scope="col">Path Image</th>
+          <th scope="col">Catégorie</th>
+          <th scope="col">Modifier</th>
+          <th scope="col">Supprimer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of productList">
+          <th scope="row">{{ product.id }}</th>
+
+          <td *ngIf="product.id !== updateId"><a [routerLink]="['/product/', product.id]">{{ product.title }}</a></td>
+          <td *ngIf="product.id === updateId">
+            <input [(ngModel)]="product.title" type="title" class="form-control" id="title" name="title" placeholder="Titre" required>
+          </td>
+
+          <td *ngIf="product.id !== updateId" [innerHtml]="product.description"></td>
+          <td *ngIf="product.id === updateId">
+            <textarea [(ngModel)]="product.description" [innerHtml]="product.description" type="description" class="form-control" id="description" name="description" placeholder="Description" cols="45" rows="10" required></textarea>
+          </td>
+
+          <td *ngIf="product.id !== updateId">{{ product.price }} €</td>
+          <td *ngIf="product.id === updateId">
+            <input [(ngModel)]="product.price" type="text" class="form-control" id="price" name="price" placeholder="Prix" required>
+          </td>
+
+          <td>{{ product.dateAdded }}</td>
+
+          <td *ngIf="product.id !== updateId">{{ product.imgPath }}</td>
+          <td *ngIf="product.id === updateId">
+              <input [(ngModel)]="product.imgPath" type="text" class="form-control" id="img_path" name="img_path" placeholder="/path/to/image" required>
+          </td>
+
+          <td *ngIf="product.id !== updateId"><a [routerLink]="['/category/', product.category.id]">{{ product.category.title }}</a></td>
+          <td *ngIf="product.id === updateId">
+            <select [(ngModel)]="product.category.id" class="form-control" id="category" name="category" required>
+              <option *ngFor="let category of categoryList" value="{{ category.id }}">{{ category.title }}</option>
+            </select>
+          </td>
+
+          <td *ngIf="product.id === updateId">
+            <button type="button" (click)="update(product)" class="btn btn-sm btn-success"><i class="fa fa-edit"></i> Valider</button>
+            <button type="button" (click)="cancel()" class="btn btn-sm btn-secondary"><i class="fa fa-ban"></i> Annuler</button>
+          </td>
+
+          <td *ngIf="product.id !== updateId">
+            <button type="button" (click)="prepareForUpdate(product.id)" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i> Modifier</button>
+          </td>
+          <td><button type="button" (click)="delete(product)" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Supprimer</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- Tableau des categories -->
+  <div class="panel-content" *ngIf="state === 'categories'">
+    <h2>Catégories</h2>
+
+    <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#add"><i class="fa fa-plus-square"></i> Ajouter</button>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Titre</th>
+          <th scope="col">Modifier</th>
+          <th scope="col">Supprimer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let category of categoryList">
+          <th scope="row">{{ category.id }}</th>
+
+          <td *ngIf="category.id !== updateId">{{ category.title }}</td>
+          <td *ngIf="category.id === updateId">
+            <input [(ngModel)]="category.title" type="text" class="form-control" id="category" name="category" placeholder="Titre" required>
+          </td>
+
+          <td *ngIf="category.id === updateId">
+            <button type="button" (click)="update(category)" class="btn btn-sm btn-success"><i class="fa fa-edit"></i> Valider</button>
+            <button type="button" (click)="cancel()" class="btn btn-sm btn-secondary"><i class="fa fa-ban"></i> Annuler</button>
+          </td>
+
+          <td *ngIf="category.id !== updateId">
+            <button type="button" (click)="prepareForUpdate(category.id)" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i> Modifier</button>
+          </td>
+          <td><button type="button" (click)="delete(category)" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Supprimer</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+
+  <!-- Tableau d'utilisateurs -->
+  <div class="panel-content" *ngIf="state === 'users'">
+    <h2>Utilisateurs</h2>
+
+    <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#add"><i class="fa fa-plus-square"></i> Ajouter</button>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Email</th>
+          <th scope="col">Nom</th>
+          <th scope="col">Prénom</th>
+          <th scope="col">Date Naissance</th>
+          <th scope="col">Date Inscription</th>
+          <th scope="col">Admin</th>
+          <th scope="col">Modifier</th>
+          <th scope="col">Supprimer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of userList">
+          <th scope="row">{{ user.id }}</th>
+
+          <td *ngIf="user.id !== updateId">{{ user.email }}</td>
+          <td *ngIf="user.id === updateId">
+            <input [(ngModel)]="user.email" type="email" class="form-control" id="email" name="email" placeholder="ex: email@domain.fr" required>
+          </td>
+
+          <td *ngIf="user.id !== updateId">{{ user.lastName }}</td>
+          <td *ngIf="user.id === updateId">
+            <input [(ngModel)]="user.lastName" type="text" class="form-control" id="last_name" name="last_name" placeholder="Nom" required>
+          </td>
+
+          <td *ngIf="user.id !== updateId">{{ user.firstName }}</td>
+          <td *ngIf="user.id === updateId">
+            <input [(ngModel)]="user.firstName" type="text" class="form-control" id="first_name" name="first_name" placeholder="Prénom" required>
+          </td>
+
+          <td *ngIf="user.id !== updateId">{{ user.birthDate }}</td>
+          <td *ngIf="user.id === updateId">
+            <input [(ngModel)]="user.birthDate" type="text" class="form-control" id="birthDate" name="birthDate" placeholder="Date de naissance" required>
+          </td>
+
+          <td>{{ user.dateAdded }}</td>
+
+          <td *ngIf="user.id !== updateId">{{ user.admin }}</td>
+          <td *ngIf="user.id === updateId">
+            <div class="col-sm-9">
+              <select [(ngModel)]="user.admin" class="form-control" id="admin" name="admin" required>
+                <option value="0">Non</option>
+                <option value="1">Oui</option>
+              </select>
+            </div>
+          </td>
+
+          <td *ngIf="user.id === updateId">
+            <button type="button" (click)="update(user)" class="btn btn-sm btn-success"><i class="fa fa-edit"></i> Valider</button>
+            <button type="button" (click)="cancel()" class="btn btn-sm btn-secondary"><i class="fa fa-ban"></i> Annuler</button>
+          </td>
+  
+          <td *ngIf="user.id !== updateId">
+            <button type="button" (click)="prepareForUpdate(user.id)" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i> Modifier</button>
+          </td>
+
+          <td *ngIf="_user.id !== user.id"><button type="button" (click)="delete(user)" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Supprimer</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- Tableau des commentaires -->
+  <div class="panel-content" *ngIf="state === 'comments'">
+    <h2>Commentaires</h2>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Id Produit</th>
+          <th scope="col">Contenu</th>
+          <th scope="col">Date d'ajout</th>
+          <th scope="col">Id Utilisateur</th>
+          <th scope="col">Nom Utilisateur</th>
+          <th scope="col">Supprimer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let comment of commentList">
+          <th scope="row">{{ comment.id }}</th>
+          <td><a [routerLink]="['/produit/', comment/productId]">{{ comment.productId }}</a></td>
+          <td>{{ comment.content }}</td>
+          <td>{{ comment.dateAdded }}</td>
+          <td>{{ comment.user.id }}</td>
+          <td>{{ comment.user.firstName }}  {{ comment.user.lastName }}</td>
+          <td><button type="button" (click)="delete(comment)" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Supprimer</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

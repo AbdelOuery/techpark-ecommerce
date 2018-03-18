@@ -1,0 +1,55 @@
+<div class="container page">
+
+  <h1>Créer un Compte!</h1>
+
+  <div *ngIf="output && output.error != null" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>{{ output.error }}</strong>
+  </div>
+
+  <form (ngSubmit)="onSubmit()" ngNativeValidate>
+    <div class="form-group row">
+      <label for="email" class="col-sm-3 col-form-label">Email *</label>
+      <div class="col-sm-9">
+        <input [(ngModel)]="user.email" type="email" class="form-control" id="email" name="email" placeholder="ex: email@domain.fr" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="password" class="col-sm-3 col-form-label">Mot de passe *</label>
+      <div class="col-sm-9">
+        <input [(ngModel)]="user.password" type="password" class="form-control" id="password" name="password" placeholder="Mot de passe" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="last_name" class="col-sm-3 col-form-label">Nom *</label>
+      <div class="col-sm-9">
+        <input [(ngModel)]="user.lastName" type="text" class="form-control" id="last_name" name="last_name" placeholder="Nom" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="first_name" class="col-sm-3 col-form-label">Prénom *</label>
+      <div class="col-sm-9">
+        <input [(ngModel)]="user.firstName" type="text" class="form-control" id="first_name" name="first_name" placeholder="Prénom" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="birth_date" class="col-sm-3 col-form-label">Date de naissance *</label>
+      <div class="col-sm-9">
+        <input [(ngModel)]="user.birthDate" type="text" class="form-control" id="birth_date" name="birth_date" placeholder="AAAA-MM-JJ" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-9 col-form-label">(*) Champs Obligatoires</label>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-sm-9">
+        <input type="submit" class="btn btn-primary" value="Inscrire">
+      </div>
+    </div>
+  </form>
+</div>

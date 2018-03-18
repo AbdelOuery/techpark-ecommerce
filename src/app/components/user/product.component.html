@@ -1,0 +1,77 @@
+<div class="container page product-details">
+
+  <!-- Afficher le produit -->
+  <div *ngIf="product">
+    <div class="row">
+      <div class="col-md-6">
+        <img src="{{ product.imgPath }}" alt="{{  product.title }}">
+      </div>
+
+      <div class="col-md-6">
+        <h2>{{ product.title }}</h2>
+        <h3>Prix: <span class="badge badge-success">{{ product.price }} €</span></h3>
+        <hr>
+        <p [innerHtml]="product.description"></p>
+        <p class="mb-2 text-muted">Ajouté le: {{ product.dateAdded }}</p>
+
+        <button type="button" (click)="addToCart(product)" class="btn btn-success" data-toggle="modal" data-target="#cartModal">
+          <i class="fa fa-cart-plus"></i>  Ajouter au panier
+        </button>
+      </div>
+
+      <div id="comments_container" class="col-md-12">
+        <h2>Commentaires</h2>
+
+        <div *ngIf="output && output.notice != null" class="col-md-6 alert alert-success alert-dismissible fade show" role="alert">
+          <strong>{{ output.notice }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div *ngIf="!user" >
+          Vous devez être <a [routerLink]="['/login']">Connecté</a> pour commenter!
+        </div>
+
+        <!-- Parcourir les commentaires -->
+        <div *ngFor="let comment of product.comments" class="card col-md-6">
+          <div class="card-body">
+            <span style="display: none">{{ comment.user.id }}</span>
+
+            <!-- Le commentaire appartient a l'utilisateur, afficher les bouttons de modification -->
+            <div *ngIf="user && user.id === comment.user.id" class="comment-tooltip">
+              <button type="button" *ngIf="!forUpdate" (click)="prepareForUpdate(comment)" class="btn text-primary"><i class="fa fa-edit"></i> Modifier</button>
+              <button type="button" (click)="delete(comment.id)" class="btn text-primary"><i class="fa fa-trash"></i> Supprimer</button>
+            </div>
+
+            <!-- Afficher le commentaire -->
+            <h5 class="card-title">{{ comment.user.firstName }} {{ comment.user.lastName }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Ajouté le {{ comment.dateAdded }}</h6>
+            <p *ngIf="!forUpdate" class="card-text">{{ comment.content }}</p>
+
+            <!-- Formulaire de modification du commentaire -->
+            <form *ngIf="user && user.id === comment.user.id && forUpdate" class="comment-tooltip" ngNativeValidate>
+              <textarea [(ngModel)]="comment.content" class="form-control" id="comment" name="comment" placeholder="Commentaire..." required></textarea>
+              <button type="button" (click)="update(comment)" class="btn text-primary"><i class="fa fa-edit"></i> Valider</button>
+              <button type="button" (click)="cancel()" class="btn text-primary"><i class="fa fa-trash"></i> Annuler</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Formulaire pour ajouter des commentaires -->
+        <form *ngIf="user" class="comments-form col-sm-6" (ngSubmit)="onSubmit()" ngNativeValidate>
+            <div class="form-group row">
+              <label for="comment" class="col-sm-3 col-form-label">Commentaire</label>
+              <div class="col-sm-9">
+                <textarea [(ngModel)]="comment.content" class="form-control" id="comment" name="comment" placeholder="Commentaire..." required></textarea>
+              </div>
+            </div>
+
+            <div class="col-sm-9">
+              <input type="submit" class="btn btn-success" value="Laisser un commentaire">
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<div id="cart" class="cart-parent bg-primary">
+  <div class="cart-holder">
+    <span class="toggler text-white"><i class="fa fa-cart-plus"></i> Panier</span>
+    <span class="toggler text-white" style="display:none;"><i class="fa fa-cart-plus text-white"></i> Panier</span>
+  </div>
+  <div class="cart-content" style="display:none;">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Titre</th>
+          <th scope="col">Prix</th>
+          <th scope="col">Enlever</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <th scope="row">{{ product.id }}</th>
+          <td>{{ product.title }}</td>
+          <td><span class="badge badge-success">{{ product.price }} €</span></td>
+          <td><button (click)="removeFromCart(product)" type="button" class="btn btn-sm btn-danger">Enlever</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button *ngIf="this.products.length > 0" (click)="checkout()" type="button" class="btn btn-success"><i class="fa fa-credit-card"></i>  Aller à la caisse</button>
+    <button *ngIf="this.products.length <= 0" type="button" class="btn btn-success" disabled><i class="fa fa-credit-card"></i>  Aller à la caisse</button>
+
+    <button *ngIf="this.products.length > 0" (click)="cancel()" type="button" class="btn btn-danger"><i class="fa fa-ban"></i>  Annuler</button>
+    <button *ngIf="this.products.length <= 0" type="button" class="btn btn-danger" disabled><i class="fa fa-ban"></i>  Annuler</button>
+  </div>
+</div>

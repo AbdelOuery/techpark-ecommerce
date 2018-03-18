@@ -1,0 +1,62 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-primary">
+  <div class="container">
+    <a class="navbar-brand" [routerLink]="['']"><strong><span class="redish">Tech</span>Park</strong></a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['']">Accueil</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/about']">A Propos</a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Catégories
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+            <!-- Parcourir les categories -->
+            <a *ngFor="let category of categories"
+                [routerLink]="['/category/', category.id]"
+                class="dropdown-item">{{ category.title }}</a>
+
+          </div>
+        </li>
+      </ul>
+      
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarConnectionDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span *ngIf="!user"><i class="fa fa-user"></i>  Connection</span>
+
+            <!-- L'utilisateur est connecte, afficher son nom complet -->
+            <span *ngIf="user"><i class="fa fa-user"></i>  {{ user.firstName }} {{ user.lastName }}</span>
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+            <!-- L'utilisateur n'est pas connecte, afficher ses choix -->
+            <a *ngIf="!user" [routerLink]="['/login']" class="dropdown-item">Connecter</a>
+            <a *ngIf="!user" [routerLink]="['/register']" class="dropdown-item">Inscrire</a>
+
+            <!-- L'utilisateur est connecte -->
+            <a *ngIf="user" [routerLink]="['/profile']" class="dropdown-item">Mon Profile</a>
+            <a *ngIf="user" href="#" (click)="logoutCurrentUser()" class="dropdown-item">Déconnecter</a>
+
+            <!-- L'utilisateur est connecte + admin -->
+            <div *ngIf="user && user.admin == 1" class="dropdown-divider"></div>
+            <a *ngIf="user && user.admin == 1" [routerLink]="['/admin']" class="dropdown-item">Administration</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

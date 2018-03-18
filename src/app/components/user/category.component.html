@@ -1,0 +1,25 @@
+<div class="container page">
+  <h2>{{ categoryName }}</h2>
+  
+  <div class="row">
+    <div *ngFor="let product of products" class="col-sm-4">
+      <div class="card">
+        <img class="card-img-top" src="{{ product.imgPath }}" alt="{{ product.title }}">
+        <h5 class="price"><span class="badge badge-success">{{ product.price}} €</span></h5>
+
+        <div class="card-body">
+          <h5 class="card-title">{{ product.title }}</h5>
+          <p class="card-subtitle mb-2 text-muted">Ajouté le: {{ product.dateAdded }}</p>
+
+          <button type="button" [routerLink]="['/product/', product.id]" class="btn btn-primary">
+            <i class="fa fa-info-circle"></i>  Savoir plus
+          </button>
+
+          <button type="button" (click)="addToCart(product)"  class="btn btn-success" data-toggle="modal" data-target="#cartModal">
+            <i class="fa fa-cart-plus"></i>  Ajouter au panier
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

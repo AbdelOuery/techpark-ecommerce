@@ -1,0 +1,42 @@
+<div class="container page">
+  <div *ngIf="output && output.error != null" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>{{ output.error }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+    
+  <div *ngIf="output && output.notice != null" class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>{{ output.notice }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <h1>Connectez-vous à votre compte!</h1>
+
+  <h3>Vous n'avez pas de compte, <a [routerLink]="['/register']" href="#">Créer un compte!</a></h3>
+
+  <form (ngSubmit)="onSubmit()" ngNativeValidate>
+
+    <div class="form-group row">
+      <label for="email" class="col-sm-3 col-form-label">Email *</label>
+      <div class="col-sm-9">
+        <input [(ngModel)]="user.email" type="email" class="form-control" id="email" name="email" placeholder="ex: email@domain.fr" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="password" class="col-sm-3 col-form-label">Mot de passe *</label>
+      <div class="col-sm-9">
+        <input [(ngModel)]="user.password" type="password" class="form-control" id="password" name="password" placeholder="Mot de passe" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-sm-9">
+        <button type="submit" class="btn btn-primary">Connecter</button>
+      </div>
+    </div>
+  </form>
+</div>

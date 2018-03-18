@@ -1,0 +1,109 @@
+<div class="container page">
+  <h1><strong>{{ user.firstName }} {{ user.lastName }}</strong></h1>
+
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/profile']" [class.active]="state === 'summary'" (click)="summary()">Sommaire</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/profile']" [class.active]="state === 'update'" (click)="update()">Modifier mes informations</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/profile']" [class.active]="state === 'purchases'" (click)="purchases()">Mes achats</a>
+    </li>
+  </ul>
+
+  <div class="panel-content" *ngIf="state === 'summary'">
+    <p>Email: <strong>{{ user.email }}</strong></p>
+    <p>Date de naissance: <strong>{{ user.birthDate }}</strong></p>
+    <p>Date d'inscription: <strong>{{ user.dateAdded }}</strong></p>
+  </div>
+
+  <div class="panel-content" *ngIf="state === 'update'">
+    <h1>Modifier mes informations!</h1>
+
+    <div *ngIf="output && output.error != null" class="alert alert-danger alert-dismissible fade show" role="alert">
+      <strong>{{ output.error }}</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div *ngIf="output && output.notice != null" class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>{{ output.notice }}</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <form class="form-horizontal" (ngSubmit)="onSubmit()" ngNativeValidate>
+      <div class="form-group row">
+        <label for="email" class="col-sm-3 col-form-label">Email *</label>
+        <div class="col-sm-9">
+          <input [(ngModel)]="user.email" type="email" class="form-control" id="email" name="email" placeholder="ex: email@domain.fr" required>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="last_name" class="col-sm-3 col-form-label">Nom *</label>
+        <div class="col-sm-9">
+          <input [(ngModel)]="user.lastName" type="text" class="form-control" id="last_name" name="last_name" placeholder="Nom" required>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="first_name" class="col-sm-3 col-form-label">Prénom *</label>
+        <div class="col-sm-9">
+          <input [(ngModel)]="user.firstName" type="text" class="form-control" id="first_name" name="first_name" placeholder="Prénom" required>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="birth_date" class="col-sm-3 col-form-label">Date de naissance *</label>
+        <div class="col-sm-9">
+          <input [(ngModel)]="user.birthDate" type="text" class="form-control" id="birth_date" name="birth_date" placeholder="AAAA-MM-JJ" required>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="password" class="col-sm-3 col-form-label">Mot de passe actuelle *</label>
+        <div class="col-sm-9">
+          <input [(ngModel)]="user.password" type="password" class="form-control" id="password" name="password" placeholder="Mot de passe actuelle" required>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-10 control-label">(*) Champs Obligatoires</label>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-9">
+          <input type="submit" class="btn btn-success" value="Modifier">
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="panel-content" *ngIf="state === 'purchases'">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Id Achat</th>
+          <th scope="col">Id Produit</th>
+          <th scope="col">Titre Produit</th>
+          <th scope="col">Prix Produit</th>
+          <th scope="col">Date d'achat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let purchase of purchaseList">
+          <th scope="row">{{ purchase.id }}</th>
+          <td>{{ purchase.product.id }}</td>
+          <td><a [routerLink]="['/product/', purchase.product.id]">{{ purchase.product.title }}</a></td>
+          <td>{{ purchase.product.price }} €</td>
+          <td>{{ purchase.dateAdded }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
